@@ -1,0 +1,338 @@
+<?php
+
+session_start();
+require_once '../vendor/autoload.php';
+
+use Controller\ClienteController;
+
+$clienteController = new ClienteController();
+
+$userInfo = null;
+
+if (!$clienteController->isLoggedIn()) {
+    header('Location: cliente_login.php');
+    exit();
+}
+
+$id = $_SESSION['id'];
+$nome = $_SESSION['nome'];
+
+$clienteNome = $clienteController->getClienteName($id, $nome);
+
+?>
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agrybem - Página Principal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../templates/assets/css/style/clientepagprincipal.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+
+                <span class="logo-text">Agry<span class="logo-highlight">bem</span></span>
+            </div>
+            <nav class="nav">
+                <?php if ($clienteNome): ?>
+                    <a href="#" class="nav-link"><?php echo htmlspecialchars($clienteNome['nome']) ?></a>
+                <?php endif; ?>
+                <div class="menu-container">
+                    <button class="menu-toggle" id="menuToggle">
+                    </button>
+                    <div class="dropdown-menu" id="dropdownMenu">
+                        <a href="cliente_perfil.php" class="menu-item">
+                            <img src="img/perfil.png" alt="Perfil" class="menu-item-icon">
+                            <span>Perfil</span>
+                        </a>
+                        <a href="cliente_pedido.html" class="menu-item">
+                            <img src="img/pedido.png" alt="Meus pedidos" class="menu-item-icon">
+                            <span>Meus Pedidos </span>
+                        </a>
+                        <a href="cliente_login.html" class="menu-item">
+                            <img src="img/sair.png" alt="Sair" class="menu-item-icon">
+                            <span>Sair</span>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-blur-box">
+                <h1 class="hero-title">Orgulho em ter você com a gente!</h1>
+            </div>
+        </div>
+    </section>
+
+    <section class="products">
+        <div class="container">
+            <h2 class="section-title"> Escolha lojas locais e leve frescor e sabor pra sua mesa.</h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <img src="img/propaganda cliente principal 1.png" alt="Sementes" class="product-img">
+                </div>
+                <div class="product-card">
+                    <img src="img/propaganda cliente principal 2.png" alt="Tomates" class="product-img">
+                </div>
+                <div class="product-card">
+                    <img src="img/propaganda cliente principal 3.png" alt="Café" class="product-img">
+                </div>
+                <div class="product-card">
+                    <img src="img/propaganda cliente principal 4.0.png" alt="Castanhas" class="product-img">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Divisor -->
+    <section class="barra-diviso">
+        <div class="divider"></div>
+
+
+    </section>
+
+
+    <!-- sessão da doação -->
+    <section class="donation">
+        <div class="container donation-container">
+            <div class="donation-content">
+                <h2 class="donation-title">Receba com o Agry<span class="donation-highlight">bem</span>!</h2>
+                <p class="donation-text">
+                    No Agrybem, instituições como ONGs e igrejas podem se cadastrar para receber doações de alimentos
+                    vindas de produtores, comerciantes e consumidores solidários.
+                </p>
+                <a href="doacao_login.html" class="donation-button">Entre como instituição</a>
+            </div>
+            <div class="donation-image">
+                <img src="img/agricultordoação" alt="Agricultor com vegetais" class="donation-img">
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção de Pesquisa -->
+    <section class="search-section">
+
+        <h2 class="search-title">Descubra lojas perto de você.</h2>
+        <div class="search-container">
+            <div class="search-input-wrapper">
+                <input type="text" class="search-input" placeholder="Pesquisar...">
+                <button class="search-btn-icon" id="searchIcon">
+                    <img src="img/lupa de pesquisa.png" alt="Pesquisar" class="search-icon-img">
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Grade de Cartões -->
+    <section class="cards-section">
+        <div class="cards-grid">
+            <!-- Cartão 1 -->
+            <a href="loja.html" class="card-link">
+                <div class="card">
+                    <div class="card-image">
+                        <img src="img/cesta rural.png" alt="Crédito Rural">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Cesta Rural</h3>
+                        <p class="card-category">Camaçari (Centro)</p>
+                    </div>
+                </div>
+            </a>
+            <!-- Cartão 2 -->
+            <div class="card">
+                <div class="card-image">
+                    <img src="img/login cliente.png" alt="Sementes">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Sementes de Milho</h3>
+                    <p class="card-category">Categoria: Insumos</p>
+                </div>
+            </div>
+
+            <!-- Cartão 3 -->
+            <div class="card">
+                <div class="card-image">
+                    <img src="img/loja 2.png" alt="Maquinário">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Maquinário Agrícola</h3>
+                    <p class="card-category">Categoria: Equipamentos</p>
+                </div>
+            </div>
+
+            <!-- Cartão 4 -->
+            <div class="card">
+                <div class="card-image">
+                    <img src="img/loja 4.png" alt="Fertilizantes">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Fertilizantes Orgânicos</h3>
+                    <p class="card-category">Categoria: Insumos</p>
+                </div>
+            </div>
+
+            <!-- Cartão 5 -->
+            <div class="card">
+                <div class="card-image">
+                    <img src="https://via.placeholder.com/200x150?text=Consultoria" alt="Consultoria">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Consultoria Agrícola</h3>
+                    <p class="card-category">Categoria: Serviços</p>
+                </div>
+            </div>
+
+            <!-- Cartão 6 -->
+            <div class="card">
+                <div class="card-image">
+                    <img src="https://via.placeholder.com/200x150?text=Pesticidas" alt="Pesticidas">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Pesticidas Naturais</h3>
+                    <p class="card-category">Categoria: Insumos</p>
+                </div>
+            </div>
+
+            <!-- Cartão 7 -->
+            <div class="card">
+                <div class="card-image">
+                    <img src="https://via.placeholder.com/200x150?text=Irrigação" alt="Irrigação">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Sistemas de Irrigação</h3>
+                    <p class="card-category">Categoria: Equipamentos</p>
+                </div>
+            </div>
+
+            <!-- Cartão 8 -->
+            <div class="card">
+                <div class="card-image">
+                    <img src="https://via.placeholder.com/200x150?text=Armazenamento" alt="Armazenamento">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Armazenamento de Grãos</h3>
+                    <p class="card-category">Categoria: Infraestrutura</p>
+                </div>
+            </div>
+
+            <!-- Cartão 9 -->
+            <div class="card">
+                <div class="card-image">
+                    <img src="https://via.placeholder.com/200x150?text=Transporte" alt="Transporte">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Transporte Agrícola</h3>
+                    <p class="card-category">Categoria: Logística</p>
+                </div>
+            </div>
+
+            <!-- Cartão 10 -->
+            <div class="card">
+                <div class="card-image">
+                    <img src="https://via.placeholder.com/200x150?text=Seguros" alt="Seguros">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Seguros Agrícolas</h3>
+                    <p class="card-category">Categoria: Seguros</p>
+                </div>
+            </div>
+
+            <!-- Cartão 11 -->
+            <div class="card">
+                <div class="card-image">
+                    <img src="https://via.placeholder.com/200x150?text=Tecnologia" alt="Tecnologia">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Tecnologia Agrícola</h3>
+                    <p class="card-category">Categoria: Tecnologia</p>
+                </div>
+            </div>
+
+            <!-- Cartão 12 -->
+            <div class="card">
+                <div class="card-image">
+                    <img src="https://via.placeholder.com/200x150?text=Mercado" alt="Mercado">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Mercado de Produtos</h3>
+                    <p class="card-category">Categoria: Comercialização</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer fixo para todas as pag -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-logo">
+
+                <span class="footer-logo-text">Agry<span class="footer-logo-highlight">bem</span></span>
+            </div>
+            <div class="footer-tagline">
+                Mais que produção, uma relação com você!
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- Seção de Copyright (Nova) -->
+    <section class="copyright-section">
+        <div class="container copyright-container">
+            <!-- Coluna 1: Copyright e Direitos -->
+            <div class="copyright-info">
+                <p class="copyright-text">
+                    &copy; 2025 - Agrybem
+                </p>
+                <p class="copyright-text-small">
+                    Agrybem Agência de Negócios Agrícolas e Bem-Estar
+                </p>
+            </div>
+
+
+            <!-- Coluna 2: CNPJ e Endereço (Adaptado para o contexto Agrybem) -->
+            <div class="copyright-address">
+                <p class="copyright-text-small">
+                    Camaçari/BA | agrybem@gmail.com
+                </p>
+            </div>
+
+
+            <!-- Coluna 3: Ícones Sociais -->
+            <div class="copyright-social">
+
+                <a href="https://www.instagram.com/agrybem?igsh=MW55dW04M3B2bXJvMA%3D%3D&utm_source=qr" target="_blank">
+                    <img src="img/instagram (1).png" alt="Instagram Agrybem" class="icon social-icon">
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Api Vlibras -->
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
+        </div>
+    </div>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        new window.VLibras.Widget('https://vlibras.gov.br/app/vlibras-plugin.js');
+    </script>
+
+    <script src="../templates/assets/js/menu_profissional.js"></script>
+</body>
+
+</html>

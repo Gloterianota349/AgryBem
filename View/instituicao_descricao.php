@@ -1,0 +1,107 @@
+<?php
+
+session_start();
+require_once '../vendor/autoload.php';
+
+use Controller\InstituicaoController;
+
+$instituicaoController = new InstituicaoController();
+
+$registerMessage = '';
+
+if($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if(isset($_POST['descricao'])) {
+        $descricao = $_POST['descricao'];
+
+        if($instituicaoController->salvarInstituicaoDescricao($descricao)) {
+                header('Location: instituicao_foto.php');
+                exit();
+        }
+        else {
+            $registerMessage = 'Erro ao registrar usuário';
+        }
+    }
+}
+
+?>
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro Empresa</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../templates/assets/css/style/empresa_descricao.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <!-- Header Fixo -->
+        <header class="header">
+            <div class="container">
+                <div class="logo">
+                    <span class="logo-text">Agry<span class="logo-highlight">bem</span></span>
+                </div>
+                 <nav class="nav">  
+                <a href="doacao_endereco.html" class="nav-button">Voltar</a>
+            </nav>
+
+        </header>
+
+           <!-- Barra de Progresso -->
+        <div class="progress-bar-container">
+            <div class="progress-step active">
+                <div class="progress-fill"></div>
+            </div>
+            <div class="progress-step active">
+                <div class="progress-fill"></div>
+            </div>
+            <div class="progress-step active">
+                <div class="progress-fill"></div>
+            </div>
+           
+            <div class="progress-step">
+                <div class="progress-fill"></div>
+            </div>
+        </div>
+
+       
+        <main class="main-content">
+
+            <!-- Formulário -->
+            <div class="form-container">
+                <h1 class="form-title">Descrição da instituição!</h1>
+                
+                <form method="POST" class="form">
+                    <div class="form-group">   
+                        <label for="descricao" class="form-label"> </label>
+                        <!-- SUBSTITUIÇÃO: input type="text" por textarea -->
+                        <textarea id="descricao" name="descricao" class="form-input" placeholder="(ex: “Somos uma instituição de caridade na região de Camaçari”)"></textarea>
+                    </div>
+
+                    <p> <?php echo $registerMessage; ?> </p>
+
+                    <!-- BOTÃO OK -->
+                    <div class="form-group form-button-ok">
+                        <button type="submit" class="ok-button">OK</button>
+                    </div>
+                </form>       
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container footer-container">
+                <div class="footer-logo">
+                    <span class="footer-logo-text">Agry<span class="footer-logo-highlight">bem</span></span>
+                </div>
+                <div class="footer-tagline">
+                    Mais que produção, uma relação com você!
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

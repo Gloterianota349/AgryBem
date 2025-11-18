@@ -1,0 +1,153 @@
+<?php
+
+session_start();
+require_once '../vendor/autoload.php';
+
+use Controller\EnderecoController;
+
+$enderecoController = new EnderecoController();
+
+$registerMessage = '';
+
+if($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if(isset($_POST['cep'], $_POST['rua'], $_POST['numero'], $_POST['bairro'], $_POST['cidade'], $_POST['estado'], $_POST['complemento'])) {
+        $cep = $_POST['cep'];
+        $rua = $_POST['rua'];
+        $numero = $_POST['numero'];
+        $bairro = $_POST['bairro'];
+        $cidade = $_POST['cidade'];
+        $estado = $_POST['estado'];
+        $complemento = $_POST['complemento'];
+
+        if($enderecoController->salvarEndereco($cep, $rua, $numero, $bairro, $cidade, $estado, $complemento)) {
+                header('Location: descricao_empresa.php');
+                exit();
+        }
+        else {
+            $registerMessage = 'Erro ao registrar endereço';
+        }
+    }
+}
+
+?>
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Endereço do Negócio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../templates/assets/css/formulario.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <!-- Header Fixo -->
+        <header class="header">
+            <div class="container">
+                <div class="logo">
+                    <span class="logo-text">Agry<span class="logo-highlight">bem</span></span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Barra de Progresso -->
+        <div class="progress-bar-container">
+            <div class="progress-step active">
+                <div class="progress-fill"></div>
+            </div>
+            <div class="progress-step active">
+                <div class="progress-fill"></div>
+            </div>
+            <div class="progress-step active">
+                <div class="progress-fill"></div>
+            </div>
+            <div class="progress-step">
+                <div class="progress-fill"></div>
+            </div>
+            <div class="progress-step">
+                <div class="progress-fill"></div>
+            </div>
+        </div>
+
+        <!-- Conteúdo Principal -->
+        <main class="main-content">
+            <!-- Botão Anterior (Esquerda) -->
+           <a href="informacao_empresa.php" class="nav-link">
+  <button class="nav-button-side nav-button-prev">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <polyline points="15 18 9 12 15 6"></polyline>
+    </svg>
+  </button>
+</a>
+            
+
+            <!-- Formulário -->
+            <div class="form-container">
+                <h1 class="form-title">Endereço do seu negócio!</h1>
+                
+                <form method="POST" class="form">
+                    <div class="form-group">
+                        <label for="nome" class="form-label">CEP</label>
+                          <a href="https://buscacepinter.correios.com.br/app/endereco/index.php" class="esqueci-cep">Não sei meu CEP</a>
+                        <input type="number" id="nome" name="cep" class="cep" placeholder="">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email" class="form-label">Rua</label>
+                        <input type="text" id="email" name="rua" class="rua" placeholder="">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cnpj" class="form-label">Número</label>
+                        <input type="number" id="cnpj" name="numero" class="numero" placeholder="">
+    
+                    </div>
+
+                    <div class="form-group">
+                        <label for="senha" class="form-label">Bairro</label>
+                        <input type="text" id="senha" name="bairro" class="bairro" placeholder="">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmacao-senha" class="form-label">Cidade</label>
+                        <input type="text" id="confirmacao-senha" name="cidade" class="form-input" placeholder="">
+                    </div>
+
+                     <div class="form-group">
+                        <label for="confirmacao-senha" class="form-label">Estado</label>
+                        <input type="text" id="confirmacao-senha" name="estado" class="form-input" placeholder="">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirmacao-senha" class="form-label">Complemento</label>
+                        <input type="text" id="confirmacao-senha" name="complemento" class="form-input" placeholder="">
+                    </div>
+
+                    <!-- Botão Próximo (Direita) -->
+                    <button type="submit" href="descricao_empresa.php" class="nav-button-side nav-button-next">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container footer-container">
+                <div class="footer-logo">
+                    <span class="footer-logo-text">Agry<span class="footer-logo-highlight">bem</span></span>
+                </div>
+                <div class="footer-tagline">
+                    Mais que produção, uma relação com você!
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
