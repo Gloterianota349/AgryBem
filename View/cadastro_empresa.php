@@ -138,17 +138,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             </form>
         </main>
 
-        <!-- Footer -->
-        <footer class="footer">
-            <div class="container footer-container">
-                <div class="footer-logo">
-                    <span class="footer-logo-text">Agry<span class="footer-logo-highlight">bem</span></span>
-                </div>
-                <div class="footer-tagline">
-                    Mais que produção, uma relação com você!
-                </div>
-            </div>
-        </footer>
+        
     </div>
 </body>
 </html>

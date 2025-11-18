@@ -17,9 +17,9 @@ class Empreendimento {
         $this->db = Connection::getInstance();
     }
 
-    public function registerEmpreendimento ($nome, $telefone, $link_whatsapp, $descricao, $hr_funcionamento, $foto, $id_endereco) {
+    public function registerEmpreendimento ($nome, $telefone, $link_whatsapp, $descricao, $hr_funcionamento, $foto) {
         try {
-            $sql = 'INSERT INTO empreendimento (nome, telefone, link_whatsapp, descricao, hr_funcionamento, foto, id_endereco) VALUES (:nome, :telefone, :link_whatsapp, :descricao, :hr_funcionamento, :foto, :id_endereco)';
+            $sql = 'INSERT INTO empreendimento (nome, telefone, link_whatsapp, descricao, hr_funcionamento, foto) VALUES (:nome, :telefone, :link_whatsapp, :descricao, :hr_funcionamento, :foto)';
 
             $stmt = $this->db->prepare($sql);
 
@@ -29,13 +29,8 @@ class Empreendimento {
             $stmt->bindParam(":descricao", $descricao, PDO::PARAM_STR);
             $stmt->bindParam(":hr_funcionamento", $hr_funcionamento, PDO::PARAM_STR);
             $stmt->bindParam(":foto", $foto, PDO::PARAM_LOB);
-            $stmt->bindParam(":id_endereco", $id_endereco, PDO::PARAM_INT);
 
-            if ($stmt->execute()) {
-                // CORREÇÃO: Retorna o ID do empreendimento recém-criado.
-                return $this->db->lastInsertId();
-            }
-            return false;
+            return $stmt->execute();
         }
         catch (PDOException $error) {
             echo "Erro ao executar o comando " . $error->getMessage();
@@ -46,6 +41,77 @@ class Empreendimento {
     public function getEmpreendimentoName ($id) {
         try {
             $sql = "SELECT nome FROM empreendimento WHERE id = :id";
+
+            $stmt = $this->db->prepare($sql);
+
+            $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+
+            $stmt->execute();
+
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+        catch(PDOException $error) {
+            echo "Erro ao buscar informações: " . $error->getMessage();
+            return false;
+        }
+    }
+    public function getEmpreendimentoDescricao ($id) {
+        try {
+            $sql = "SELECT descricao FROM empreendimento WHERE id = :id";
+
+            $stmt = $this->db->prepare($sql);
+
+            $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+
+            $stmt->execute();
+
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+        catch(PDOException $error) {
+            echo "Erro ao buscar informações: " . $error->getMessage();
+            return false;
+        }
+    }
+
+    public function getEmpreendimentoTelefone ($id) {
+        try {
+            $sql = "SELECT telefone FROM empreendimento WHERE id = :id";
+
+            $stmt = $this->db->prepare($sql);
+
+            $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+
+            $stmt->execute();
+
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+        catch(PDOException $error) {
+            echo "Erro ao buscar informações: " . $error->getMessage();
+            return false;
+        }
+    }
+
+    public function getEmpreendimentoFuncionamento ($id) {
+        try {
+            $sql = "SELECT hr_funcionamento FROM empreendimento WHERE id = :id";
+
+            $stmt = $this->db->prepare($sql);
+
+            $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+
+            $stmt->execute();
+
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+        catch(PDOException $error) {
+            echo "Erro ao buscar informações: " . $error->getMessage();
+            return false;
+        }
+    }
+
+    public function getEmpreendimentoWhatsapp ($id) {
+        try {
+            $sql = "SELECT Alink_whatsapp FROM empreendimento WHERE id = :id";
 
             $stmt = $this->db->prepare($sql);
 
@@ -79,13 +145,18 @@ class Empreendimento {
         }
     }
 
-    public function getEmpreendimentoInfo ($id) {
+    public function getEmpreendimentoInfo ($id, $nome, $telefone, $link_whatsapp, $descricao, $hr_funcionamento) {
         try {
-            $sql = "SELECT nome, telefone, link_whatsapp, descricao, hr_funcionamento FROM empreendimento WHERE id = :id";
+            $sql = "SELECT nome, telefone, link_whatsapp, descricao, hr_funcionamento FROM empreendimento WHERE id = :id AND nome = :nome AND telefone = :telefone AND link_whatsapp = :link_whatsapp AND descricao = :descricao AND hr_funcionamento = :hr_funcionamento";
 
             $stmt = $this->db->prepare($sql);
 
             $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+            $stmt->bindParam(":nome", $nome, PDO::PARAM_STR);
+            $stmt->bindParam(":telefone", $telefone, PDO::PARAM_STR);
+            $stmt->bindParam(":link_whatsapp", $link_whatsapp, PDO::PARAM_STR);
+            $stmt->bindParam(":descricao", $descricao, PDO::PARAM_STR);
+            $stmt->bindParam(":hr_funcionamento", $hr_funcionamento, PDO::PARAM_STR);
 
             $stmt->execute();
 

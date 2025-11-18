@@ -51,12 +51,12 @@ class EmpreendimentoController{
     }
 
     //Cadastro de empreendimento
-    public function cadastroempreendimento($nome, $telefone, $link_whatsapp, $descricao, $hr_funcionamento, $foto, $id_endereco){
-        if(empty($nome) or empty($telefone) or empty($link_whatsapp) or empty($descricao) or empty($hr_funcionamento) or empty($foto) or empty($id_endereco)){
+    public function cadastroempreendimento($nome, $telefone, $link_whatsapp, $descricao, $hr_funcionamento, $foto){
+        if(empty($nome) or empty($telefone) or empty($link_whatsapp) or empty($descricao) or empty($hr_funcionamento) or empty($foto)){
             return false;
         }
 
-        return $this->empreendimentoModel->registerEmpreendimento($nome, $telefone, $link_whatsapp, $descricao, $hr_funcionamento, $foto, $id_endereco);
+        return $this->empreendimentoModel->registerEmpreendimento($nome, $telefone, $link_whatsapp, $descricao, $hr_funcionamento, $foto);
     }
 
     // Buscar nome do empreendimento
@@ -64,13 +64,29 @@ class EmpreendimentoController{
         return $this->empreendimentoModel->getempreendimentoName($id);
     }
 
+    public function getempreendimentoDescricao($id){
+        return $this->empreendimentoModel->getempreendimentoDescricao($id);
+    }
+
+    public function getEmpreendimentoTelefone($id){
+        return $this->empreendimentoModel->getEmpreendimentoTelefone($id);
+    }
+
+    public function getEmpreendimentoFuncionamento($id){
+        return $this->empreendimentoModel->getEmpreendimentoFuncionamento($id);
+    }
+
+    public function getEmpreendimentoWhatsapp($id){
+        return $this->empreendimentoModel->getEmpreendimentoWhatsapp($id);
+    }
+
     public function getEmpreendimentoFoto($id){
         return $this->empreendimentoModel->getEmpreendimentoFoto($id);
     }
 
     // Buscar informações do empreendimento (pelo empreendimento)
-    public function getempreendimentoInfo($id){
-        return $this->empreendimentoModel->getempreendimentoInfo($id);
+    public function getempreendimentoInfo($id, $nome, $telefone, $link_whatsapp, $descricao, $hr_funcionamento){
+        return $this->empreendimentoModel->getempreendimentoInfo($id, $nome, $telefone, $link_whatsapp, $descricao, $hr_funcionamento);
     }
 
     //Atualizar informações de cadastro do empreendimento

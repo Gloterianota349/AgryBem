@@ -23,11 +23,11 @@
             </div>
             <nav class="nav">
                     <a href="#doacao" class="nav-link">Instituição</a>
-                <a href="empresa_login.html" class="nav-link">Empreendimento</a>
+                <a href="View/login_empresa.php" class="nav-link">Empreendimento</a>
                 <div class="nav-separator"> 
-                <a href="cliente_cadastro.html" class="nav-link"></a>Criar Conta</a>
+                <a href="View/cliente_cadastro.php" class="nav-link"></a>Criar Conta</a>
                 </div>
-                <a href="cliente_login.html" class="nav-button">Entrar</a>
+                <a href="View/cliente_login.php" class="nav-button">Entrar</a>
             </nav>
         </div>
     </header>
