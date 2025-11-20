@@ -37,7 +37,7 @@
     <h2 class="panel-title">Escolha uma foto de qualidade para maior confiança</h2>
 
     <div class="button-group">
-        <a href="empresa_cadastro_produto.html" class="btn btn-primary">Cadastrar produto</a>
+        <a href="../View/empresa_cadastro_produto.php" class="btn btn-primary">Cadastrar produto</a>
     </div>
     
 </section>
@@ -166,5 +166,16 @@
 		    </div>
 
 		   <script src="../templates/assets/js/empresa_modal.js"></script>
+		    <!-- Api Vlibras -->
+    <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+        <div class="vw-plugin-top-wrapper"></div>
+    </div>
+    </div>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
 		</body>
 		</html>

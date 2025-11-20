@@ -117,7 +117,7 @@ $clienteNome = $clienteController->getClienteName($id, $nome);
                 <p class="donation-text">
                   No Agrybem, você também pode fazer a diferença, doe alimentos em bom estado e ajude ONGs e instituições da sua região.
                 </p>
-                <a href="doacao_visualizacao_cliente.html" class="donation-button">Participar</a>
+                <a href="../View/doacao_visualizacao_cliente.php" class="donation-button">Participar</a>
             </div>
             <div class="donation-image">
                 <img src="../templates/assets/img/agricultordoação" alt="Agricultor com vegetais" class="donation-img">
@@ -288,6 +288,18 @@ $clienteNome = $clienteController->getClienteName($id, $nome);
     new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
     <script src="../templates/assets/js/menu_profissional.js"></script>
+
+     <!-- Api Vlibras -->
+    <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+        <div class="vw-plugin-top-wrapper"></div>
+    </div>
+    </div>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
 </body>
 
 </html>

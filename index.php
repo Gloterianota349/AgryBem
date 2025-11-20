@@ -24,9 +24,7 @@
             <nav class="nav">
                     <a href="#doacao" class="nav-link">Instituição</a>
                 <a href="View/login_empresa.php" class="nav-link">Empreendimento</a>
-                <div class="nav-separator"> 
-                <a href="View/cliente_cadastro.php" class="nav-link"></a>Criar Conta</a>
-                </div>
+              
                 <a href="View/cliente_login.php" class="nav-button">Entrar</a>
             </nav>
         </div>

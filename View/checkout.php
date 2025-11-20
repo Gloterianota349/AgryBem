@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agrybem - Finalizar Compra</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../templates/assets/css/loja.css"> 
+    <link rel="stylesheet" href="../templates/assets/css/checkout.css">
+    <!-- Não incluímos os scripts, pois é apenas uma simulação estática -->
+</head>
+<body>
+    <!-- Header (Reutilizado do carrinho.html) -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <span class="logo-text">Agry<span class="logo-highlight">bem</span></span>
+            </div>
+            <nav class="nav">
+                <a href="carrinho.html" class="nav-button">Voltar ao carrinho</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Conteúdo do Checkout -->
+    <main class="checkout-page-content">
+        <div class="container">
+            <h1 class="checkout-title">Finalizar Pedido</h1>
+
+            <div class="checkout-grid">
+                <!-- Card 1: Resumo do Pedido (Adaptado para o formato de nota fiscal com imagem) -->
+                <div class="checkout-card order-summary-card">
+                    <div class="order-card-header">
+                        <span class="store-name">Cesta Rural</span>
+                        <h2 class="card-title">Seu Pedido</h2>
+                    </div>
+                    <div id="order-items-container" class="order-items-scrollable">
+                        
+                        <!-- Item 1: Banana Prata -->
+                        <div class="order-item-detail">
+                            <div class="item-info-group">
+                                <img src="img/banana.png" alt="Banana Prata" class="order-item-image">
+                                <div class="item-text-details">
+                                    <span class="item-name">Banana Prata</span>
+                                    <span class="item-category">Frutas</span>
+                                    <span class="item-base-price">Preço base: R$ 5,99 / kg</span>
+                                </div>
+                            </div>
+                            <div class="item-quantity-price-group">
+                                <span class="item-quantity">1.5 kg</span>
+                                <span class="item-total-price">R$ 8,99</span>
+                            </div>
+                        </div>
+
+                        <!-- Item 2: Tomate Cereja -->
+                        <div class="order-item-detail">
+                            <div class="item-info-group">
+                                <img src="https://via.placeholder.com/80x80?text=Tomate" alt="Tomate Cereja" class="order-item-image">
+                                <div class="item-text-details">
+                                    <span class="item-name">Tomate Cereja</span>
+                                    <span class="item-category">Legumes</span>
+                                    <span class="item-base-price">Preço base: R$ 3,50 / un</span>
+                                </div>
+                            </div>
+                            <div class="item-quantity-price-group">
+                                <span class="item-quantity">3 un</span>
+                                <span class="item-total-price">R$ 10,50</span>
+                            </div>
+                        </div>
+
+                        <!-- Item 3: Alface Crespa -->
+                        <div class="order-item-detail">
+                            <div class="item-info-group">
+                                <img src="https://via.placeholder.com/80x80?text=Alface" alt="Alface Crespa" class="order-item-image">
+                                <div class="item-text-details">
+                                    <span class="item-name">Alface Crespa</span>
+                                    <span class="item-category">Folhagens</span>
+                                    <span class="item-base-price">Preço base: R$ 2,00 / un</span>
+                                </div>
+                            </div>
+                            <div class="item-quantity-price-group">
+                                <span class="item-quantity">1 un</span>
+                                <span class="item-total-price">R$ 2,00</span>
+                            </div>
+                        </div>
+
+                        <!-- FIM DOS ITENS -->
+                    </div>
+                    <div class="summary-total-line">
+                        <span class="summary-total-label">Total Geral:</span>
+                        <span class="summary-total-value" id="checkout-grand-total">R$ 21,49</span>
+                    </div>
+                </div>
+
+                <!-- Card 2: Agendamento de Retirada (Mantido como estava) -->
+                <div class="checkout-card schedule-card">
+                    <h2 class="card-title">Agendamento de Retirada</h2>
+                    <form id="schedule-form">
+                        <div class="form-group">
+                            <label for="pickup-date">Data de Retirada:</label>
+                            <input type="date" id="pickup-date" name="pickup-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="pickup-time">Hora de Retirada:</label>
+                            <input type="time" id="pickup-time" name="pickup-time" required>
+                        </div>
+
+                        <button type="submit" formaction="../View/loja.php" class="confirm-order-btn">
+                       Confirmar Pedido
+                        </button>
+
+                  
+    
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+     <!-- Api Vlibras -->
+    <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+        <div class="vw-plugin-top-wrapper"></div>
+    </div>
+    </div>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
+</body>
+</html>
+///

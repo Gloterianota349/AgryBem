@@ -1,45 +1,3 @@
-<?php
-
-session_start();
-require_once '../vendor/autoload.php';
-
-use Controller\InstituicaoController;
-
-$instituicaoController = new InstituicaoController();
-
-
-$id = $_SESSION['id'] ?? null;
-if (!$id) {
-    header("HTTP/1.0 404 Not Found");
-    exit('ID não encontrado');
-}
-
-$result = $instituicaoController->getInstituicaoFoto($id);
-
-if ($result && isset($result['foto'])) {
-    $data = $result['foto'];
-    // detect mime type from bytes if possible
-    $info = @getimagesizefromstring($data);
-    $mime = $info['mime'] ?? 'image/jpeg';
-} else {
-    header("HTTP/1.0 404 Not Found");
-}
-
-
-$userInfo = null;
-
-if(!$instituicaoController->isLoggedIn()) {
-    header('Location: instituicao_login.php');
-    exit();
-}
-
-$id = $_SESSION['id_instituicao'];
-$nome = $_SESSION['nome_instituicao'];
-
-$instituicaoNome = $instituicaoController->getInstituicaoName($id, $nome);
-
-?>
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -59,32 +17,10 @@ $instituicaoNome = $instituicaoController->getInstituicaoName($id, $nome);
                
                 <span class="logo-text">Agry<span class="logo-highlight">bem</span></span>
             </div>
-            <nav class="nav">
-                <?php if($instituicaoNome): ?>
-                    <a href="#" class="nav-link"><?php echo htmlspecialchars($instituicaoNome['nome'])?></a>
-                <?php endif; ?>
-                <div class="menu-container">
-                    <button class="menu-toggle" id="menuToggle">
-                        <img src="../templates/assets/img/menu.png" alt="Menu" class="menu-icon-img">
-                    </button>
-                    <div class="dropdown-menu" id="dropdownMenu">
-                        <a href="../View/instituicao_perfil.php" class="menu-item">
-                            <img src="../templates/assets/img/perfil.png" alt="Perfil" class="menu-item-icon">
-                            <span>Perfil</span>
-                        </a>
-                         <a href="../View/daocao_intituicao.php" class="menu-item">
-                            <img src="../templates/assets/img/loja empresa.png" alt="Sair" class="menu-item-icon">
-                            <span>instituição</span>
-                        </a>
-    
-        
-                        <a href="../View/instituicao_login.php" class="menu-item">
-                            <img src="../templates/assets/img/sair.png" alt="Sair" class="menu-item-icon">
-                            <span>Sair</span>
-                        </a>
-                    </div>
-                </div>
+             <nav class="nav">  
+                <a href="../View/cliente_pag_principal.php" class="nav-button">Voltar</a>
             </nav>
+          
         </div>
     </header>
 
@@ -171,7 +107,7 @@ $instituicaoNome = $instituicaoController->getInstituicaoName($id, $nome);
                 <div class="search-input-wrapper">
                     <input type="text" class="search-input" placeholder="Pesquisar...">
                     <button class="search-btn-icon" id="searchIcon">
-                        <img src="../templates/assets/img/lupa de pesquisa.png" alt="Pesquisar" class="search-icon-img">
+                        <img src="../templates/assets/img/img/lupa de pesquisa.png" alt="Pesquisar" class="search-icon-img">
                     </button>
                 </div>
             </div>
@@ -216,7 +152,7 @@ $instituicaoNome = $instituicaoController->getInstituicaoName($id, $nome);
             <!-- Cartão 4 -->
             <div class="card">
                 <div class="card-image">
-                    <img src="../templates/assets/img/instituição 4.png" alt="Fertilizantes">
+                    <img src="img/instituição 4.png" alt="Fertilizantes">
                 </div>
                 <div class="card-content">
                     <h3 class="card-title">Fertilizantes Orgânicos</h3>
@@ -314,7 +250,9 @@ $instituicaoNome = $instituicaoController->getInstituicaoName($id, $nome);
         </div>
     </section>
 
-   
+    
+
+
 
   <!-- Api Vlibras -->
     <div vw class="enabled">
@@ -327,7 +265,7 @@ $instituicaoNome = $instituicaoController->getInstituicaoName($id, $nome);
     <script>
     new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
-    
-   <script src="../templates/assets/js/menu_profissional.js"></script>
+
+   <script src="/js/menu_profissional.js"></script>
 </body>
-</html>
+</html> 

@@ -138,7 +138,7 @@ $mapUrl = "https://www.google.com/maps/embed/v1/place?key={$googleMapsApiKey}&q=
                 <span class="logo-text">Agry<span class="logo-highlight">bem</span></span>
             </div>
             <nav class="nav">
-                <a href="painel_profissional_empresa.php" class="nav-button">Voltar</a>
+                <a href="../View/painel_profissional_empresa.php" class="nav-button">Voltar</a>
             </nav>
         </div>
     </header>
@@ -338,6 +338,18 @@ $mapUrl = "https://www.google.com/maps/embed/v1/place?key={$googleMapsApiKey}&q=
             });
         }
     });
+    </script>
+
+     <!-- Api Vlibras -->
+    <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+        <div class="vw-plugin-top-wrapper"></div>
+    </div>
+    </div>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
 </body>
 </html>

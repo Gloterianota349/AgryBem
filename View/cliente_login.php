@@ -137,7 +137,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </section>
 
  
- <!-- Api Vlibras -->
+  <!-- Api Vlibras -->
     <div vw class="enabled">
     <div vw-access-button class="active"></div>
     <div vw-plugin-wrapper>

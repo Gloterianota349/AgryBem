@@ -180,7 +180,7 @@ $empreendimentoNome = $empreendimentoController->getEmpreendimentoName($_SESSION
                 <p class="donation-text">
                    No Agrybem, agricultores e comerciantes podem doar alimentos em bom estado, e instituições cadastradas como ONGs e igrejas podem receber as doações.
                 </p>
-                <a href="doacao_visualização_empresa.html" class="donation-button">participar</a>
+                <a href="../View/doacao_visualização_empresa.php" class="donation-button">participar</a>
             </div>
             <div class="donation-image">
                 <img src="../templates/assets/img/agricultordoação" alt="Agricultor com vegetais" class="donation-img">
@@ -230,6 +230,17 @@ $empreendimentoNome = $empreendimentoController->getEmpreendimentoName($_SESSION
             </div>
         </div>
     </section>
+     <!-- Api Vlibras -->
+    <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+        <div class="vw-plugin-top-wrapper"></div>
+    </div>
+    </div>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
 
    <script src="../templates/assets/js/menu_profissional.js"></script>
 </body>

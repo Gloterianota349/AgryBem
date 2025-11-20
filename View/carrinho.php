@@ -108,11 +108,20 @@
                     <span class="summary-total-value" id="grand-total">R$ 21,49</span>
                 </div>
                 <!-- O botão de finalizar pedido agora é um link para simular a navegação -->
-                <a href="checkout.html" class="checkout-btn" id="checkout-btn">Finalizar Pedido</a>
+                <a href="../View/checkout.php" class="checkout-btn" id="checkout-btn">Finalizar Pedido</a>
             </div>
         </div>
     </main>
-
-    <!-- Script do carrinho (REMOVIDO, pois a lógica será feita com PHP) -->
+ <!-- Api Vlibras -->
+    <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+        <div class="vw-plugin-top-wrapper"></div>
+    </div>
+    </div>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
 </body>
 </html>

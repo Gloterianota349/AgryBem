@@ -50,7 +50,7 @@ $cliente_email = $_SESSION['email'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meu Perfil - Agrybem</title>
-    <link rel="stylesheet" href="../templates/assets/css/cliente_perfil.css">
+    <link rel="stylesheet" href="../templates/assets/css/cliente_perfil1.css">
 </head>
 <body>
     <!-- HEADER -->
@@ -160,6 +160,18 @@ $cliente_email = $_SESSION['email'];
             });
         });
     });
+    </script>
+
+     <!-- Api Vlibras -->
+    <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+        <div class="vw-plugin-top-wrapper"></div>
+    </div>
+    </div>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
 </body>
 </html>

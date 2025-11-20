@@ -263,6 +263,8 @@ body {
 }
 
 .form-field {
+    color: #ad0011;
+    margin-top: 25px;
     display: flex;
     flex-direction: column;
 }
@@ -581,4 +583,3 @@ body {
         padding: 0;
     }
 }
-
