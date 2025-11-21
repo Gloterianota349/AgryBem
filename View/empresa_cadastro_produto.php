@@ -1,3 +1,51 @@
+<?php
+session_start();
+require_once '../vendor/autoload.php';
+
+use Controller\ProdutoController;
+
+$registerMessage = '';
+
+// Verifica se o empreendedor está logado e pega o id_empreendimento
+if (!isset($_SESSION['id_empreendimento'])) {
+    // Redireciona para o login se não estiver logado
+    header('Location: login_empresa.php');
+    exit();
+}
+
+$id_empreendimento = $_SESSION['id_empreendimento'];
+$produtoController = new ProdutoController();
+
+if($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if(isset($_POST['nome'], $_POST['preco'], $_POST['unidadeMedida'], $_POST['categoria']) && isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) {
+        
+        $nome = $_POST['nome'];
+        $preco = $_POST['preco'];
+        $medida = $_POST['unidadeMedida'];
+        $categoria = $_POST['categoria'];
+        
+        // Processa a foto
+        $tmpName = $_FILES['foto']['tmp_name'];
+        $fotoBin = file_get_contents($tmpName);
+
+        // Remove o prefixo "R$" do preço, se existir, e substitui vírgula por ponto
+        $preco_limpo = str_replace(['R$', ' '], '', $preco);
+        $preco_float = (float) str_replace(',', '.', $preco_limpo);
+
+        if($produtoController->cadastroProduto($nome, $preco_float, $categoria, $medida, $fotoBin, $id_empreendimento)) {
+            // Sucesso! Redireciona para a página de produtos
+            header('Location: empresa_produto.php?status=success');
+            exit();
+        } else {
+            // Falha! Exibe uma mensagem de erro.
+            $registerMessage = 'Ocorreu um erro ao cadastrar o produto. Por favor, tente novamente.';
+        }
+    } else {
+        $registerMessage = 'Por favor, preencha todos os campos e selecione uma foto.';
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -36,7 +84,7 @@
             <div class="form-container">
                 <h1 class="form-title">Informações do seu produto!</h1>
                 
-                <form class="form">
+                <form class="form" method="POST" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="nome" class="form-label">Nome  </label>
                         <input type="text" id="nome" name="nome" class="form-input" placeholder="Ex: Tomate Cereja">
@@ -120,22 +168,34 @@
 
 <!-- UPLOAD DE FOTO -->
 <div class="form-group upload-group">
-  <label class="form-label">Foto</label>
-  <div class="upload-box" onclick="document.getElementById('uploadFoto').click()">
-    <img src="img/upload-de-arquivo 2.png" alt="Upload" class="upload-icon">
-    <input type="file" id="uploadFoto" name="foto" accept="image/*" style="display: none;">
-  </div>
-</div>
+	  <label class="form-label">Foto</label>
+	  <div class="upload-box" onclick="document.getElementById('uploadFoto').click()">
+	    <img id="previewFoto" src="../templates/assets/img/upload-de-arquivo 2.png" alt="Upload" class="upload-icon">
+	    <input type="file" id="uploadFoto" name="foto" accept="image/*" style="display: none;">
+	  </div>
+	</div>
 
 <!-- BOTÃO OK -->
 	<div class="form-group form-button-ok">
-  <a href="empresa_produto.html" class="ok-button">OK</a>
+  <button type="submit" class="ok-button">OK</button>
 </div>
 
 
 		       
 	    </div>
-    <script src="script.js"></script>
+    <script>
+    // Script para pré-visualização da imagem
+    document.getElementById('uploadFoto').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('previewFoto').src = e.target.result;
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
      <!-- Api Vlibras -->
     <div vw class="enabled">
     <div vw-access-button class="active"></div>

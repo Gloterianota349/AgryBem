@@ -62,7 +62,7 @@ class InstituicaoController{
 
     //Verificar se instituição está loggada
     public function isLoggedIn(){
-        return isset ($_SESSION['id']);
+        return isset ($_SESSION['id_instituicao']);
     }
 
     //Login da instituição

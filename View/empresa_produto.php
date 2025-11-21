@@ -1,3 +1,51 @@
+<?php
+session_start();
+require_once '../vendor/autoload.php';
+
+use Controller\ProdutoController;
+
+// Verifica se o empreendedor está logado e pega o id_empreendimento
+if (!isset($_SESSION['id_empreendimento'])) {
+    // Redireciona para o login se não estiver logado
+    header('Location: login_empresa.php');
+    exit();
+}
+
+$id_empreendimento = $_SESSION['id_empreendimento'];
+$produtoController = new ProdutoController();
+$produtos = $produtoController->getProdutosByEmpreendimento($id_empreendimento);
+
+// Lógica para processar a exclusão
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['action'] == 'delete' && isset($_POST['id_produto_delete'])) {
+    $id_produto = $_POST['id_produto_delete'];
+    if ($produtoController->deleteProduto($id_produto)) {
+        header('Location: empresa_produto.php?status=deleted');
+        exit();
+    } else {
+		// Tratar erro de exclusão
+    }
+}
+
+// Lógica para processar a edição
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['action'] == 'edit' && isset($_POST['id_produto'], $_POST['nome'], $_POST['preco'])) {
+    $id_produto = $_POST['id_produto'];
+    $nome = $_POST['nome'];
+    $preco = $_POST['preco'];
+    
+    // Remove o prefixo "R$" do preço, se existir, e substitui vírgula por ponto
+    $preco_limpo = str_replace(['R$', ' '], '', $preco);
+    $preco_float = (float) str_replace(',', '.', $preco_limpo);
+
+    if ($produtoController->updateproduto($id_produto, $nome, $preco_float)) {
+        header('Location: empresa_produto.php?status=updated');
+        exit();
+    } else {
+        // Tratar erro de edição
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -68,63 +116,28 @@
     <!-- Grade de Cartões -->
     <section class="cards-section">
         <div class="cards-grid">
-             <!-- Cartão 10 -->
-			            <div class="card" data-id="10" data-nome="Seguros Agrícolas" data-preco="R$ 80.00" data-categoria="Seguros">
-			                <div class="edit-icon" data-id="10"><i class="fas fa-pencil-alt"></i></div>
-		                <div class="card-image">
-		                    <img src="../templates/assets/img/Post instagram dia do feirante moderno verde (21) 1.png" alt="Seguros">
-		                </div>
-		                <div class="card-content">
-		                    <h3 class="card-title">Maçã</h3>	
-							<p><span>R$</span> 89,90 kg</p>
-		                    <p class="card-category">Fruta</p>
-		                </div>
-			</div>
-			             <!-- Cartão 10 -->
-			            <div class="card" data-id="10" data-nome="Seguros Agrícolas" data-preco="R$ 80.00" data-categoria="Seguros">
-			                <div class="edit-icon" data-id="10"><i class="fas fa-pencil-alt"></i></div>
-		                <div class="card-image">
-		                    <img src="../templates/assets/img/banana.png" alt="Seguros">
-		                </div>
-		                <div class="card-content">
-		                    <h3 class="card-title">Banana</h3>	
-							<p><span>R$</span> 89,90 kg</p>
-		                    <p class="card-category">Fruta</p>
-		                </div>
-		            </div>
-
-			             <!-- Cartão 10 -->
-			            <div class="card" data-id="10" data-nome="Seguros Agrícolas" data-preco="R$ 80.00" data-categoria="Seguros">
-			                <div class="edit-icon" data-id="10"><i class="fas fa-pencil-alt"></i></div>
-		                <div class="card-image">
-		                    <img src="../templates/assets/img/cafe pag inicial.png" alt="Seguros">
-		                </div>
-		                <div class="card-content">
-		                    <h3 class="card-title">Café</h3>	
-							<p><span>R$</span> 89,90 kg</p>
-		                    <p class="card-category">Grão</p>
-		                </div>
-		            </div>
-
-			              <!-- Cartão 10 -->
-			            <div class="card" data-id="10" data-nome="Seguros Agrícolas" data-preco="R$ 80.00" data-categoria="Seguros">
-			                <div class="edit-icon" data-id="10"><i class="fas fa-pencil-alt"></i></div>
-		                <div class="card-image">
-		                    <img src="../templates/assets/img/Post instagram dia do feirante moderno verde (22) 1.png" alt="Seguros">
-		                </div>
-		                <div class="card-content">
-		                    <h3 class="card-title">Laranja</h3>	
-							<p><span>R$</span> 89,90 kg</p>
-		                    <p class="card-category">Fruta</p>
-		                </div>
-		            </div>
-
-			          
-					
-
-			          
-
-			          
+			<?php if (!empty($produtos)): ?>
+	                <?php foreach ($produtos as $produto): ?>
+	                    <?php
+	                        $foto_base64 = base64_encode($produto['foto']);
+	                        $foto_src = 'data:image/jpeg;base64,' . $foto_base64;
+	                        $preco_formatado = 'R$ ' . number_format($produto['preco'], 2, ',', '.');
+	                    ?>
+	                    <div class="card" data-id="<?php echo $produto['id']; ?>" data-nome="<?php echo htmlspecialchars($produto['nome']); ?>" data-preco="<?php echo $preco_formatado; ?>" data-categoria="<?php echo htmlspecialchars($produto['categoria']); ?>">
+	                        <div class="edit-icon" data-id="<?php echo $produto['id']; ?>"><i class="fas fa-pencil-alt"></i></div>
+	                        <div class="card-image">
+	                            <img src="<?php echo $foto_src; ?>" alt="<?php echo htmlspecialchars($produto['nome']); ?>">
+	                        </div>
+	                        <div class="card-content">
+	                            <h3 class="card-title"><?php echo htmlspecialchars($produto['nome']); ?></h3>	
+	                            <p><span>R$</span><?php echo number_format($produto['preco'], 2, ',', '.'); ?></p>
+	                            <p class="card-category"><?php echo htmlspecialchars($produto['categoria']); ?></p>
+	                        </div>
+	                    </div>
+	                <?php endforeach; ?>
+	            <?php else: ?>
+	                <p>Nenhum produto cadastrado.</p>
+	            <?php endif; ?>          
 		    </section>
 
 		 
@@ -134,7 +147,12 @@
 		        <div class="modal-content">
 		            
 		            <!-- Botão Excluir (Topo) -->
-		            <button class="btn-modal btn-excluir-topo" id="btnExcluir">Excluir</button>
+		            <form method="POST" id="editProductForm" class="modal-form">
+						<input type="hidden" name="action" value="delete">
+						<input type="hidden" name="id_produto_delete" id="modal-delete-id"
+						value="<?php $produto['id']; ?>">
+						<button type="submit" class="btn-modal btn-excluir-topo" id="btnExcluir">Excluir</button>
+					</form>
 		            
 		            <!-- Acordeão para Edição -->
 		            <div class="accordion-container">
@@ -144,8 +162,10 @@
 		                </div>
 		                
 		                <div id="accordionContent" class="accordion-content">
-		                    <form id="editProductForm" class="modal-form">
-		                        <input type="hidden" id="modal-product-id">
+		                    <form id="editProductForm" class="modal-form" method="POST">
+		                        <input type="hidden" name="action" value="edit">
+			                    <input type="hidden" name="id_produto" id="modal-product-id"
+								value="<?php $produto['id']; ?>">
 		                        
 		                        <label for="modal-nome">Nome</label>
 		                        <input type="text" id="modal-nome" name="nome" placeholder="">
@@ -155,13 +175,12 @@
 		                        
 		                        <!-- Campo Categoria oculto para compatibilidade com JS -->
 		                        <input type="hidden" id="modal-categoria">
+
+								<!-- Botão OK (Base) -->
+								<button type="submit" class="btn-modal btn-ok-base" id="btnOK">OK</button>
 		                    </form>
 		                </div>
 		            </div>
-		            
-		            <!-- Botão OK (Base) -->
-		            <button class="btn-modal btn-ok-base" id="btnOK">OK</button>
-		            
 		        </div>
 		    </div>
 
