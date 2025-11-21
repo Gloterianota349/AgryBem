@@ -1,3 +1,58 @@
+<?php
+session_start();
+require_once '../vendor/autoload.php';
+
+use Controller\EmpreendimentoController;
+use Controller\EnderecoController;
+
+$empreendimento_id = $_SESSION['id_empreendimento'] ?? null;
+
+if (!$empreendimento_id) {
+    // Redireciona ou mostra uma mensagem de erro se o ID não for fornecido
+    header('Location: painel_profissional_empresa.php');
+    exit();
+}
+
+$empreendimentoController = new EmpreendimentoController();
+$enderecoController = new EnderecoController();
+
+// Busca as informações do empreendimento
+$empreendimentoInfo = $empreendimentoController->getempreendimentoInfo($empreendimento_id);
+$empreendimentoFoto = $empreendimentoController->getEmpreendimentoFoto($empreendimento_id);
+
+// Busca as informações do endereço do empreendimento
+$enderecoInfo = null;
+if ($empreendimentoInfo && isset($empreendimentoInfo['id_endereco'])) {
+    $enderecoInfo = $enderecoController->getEnderecoInfo($empreendimentoInfo['id_endereco']);
+}
+
+// Converte a foto para base64
+$foto_base64 = '';
+if ($empreendimentoFoto && isset($empreendimentoFoto['foto'])) {
+    $foto_base64 = base64_encode($empreendimentoFoto['foto']);
+}
+$foto_src = 'data:image/jpeg;base64,' . $foto_base64;
+
+// PREPARAÇÃO DA URL DO MAPA
+$mapQuery = 'Brasil'; // Valor padrão caso não haja endereço
+if ($enderecoInfo) {
+    $mapParts = [
+        $enderecoInfo['rua'] ?? '',
+        $enderecoInfo['numero'] ?? '',
+        $enderecoInfo['bairro'] ?? '',
+        $enderecoInfo['cidade'] ?? '',
+        $enderecoInfo['estado'] ?? '',
+        $enderecoInfo['cep'] ?? ''
+    ];
+    // Remove partes vazias e junta com vírgula
+    $addressString = implode(',', array_filter($mapParts));
+    // Codifica a string para ser usada em uma URL (troca espaços por '+', etc.)
+    $mapQuery = urlencode($addressString);
+}
+$googleMapsApiKey = 'AIzaSyC0tzkSQhRrMOcoMZ1XU0Ty4RwCER5gxLo'; // IMPORTANTE: Substitua pela sua chave de API do Google Maps
+$mapUrl = "https://www.google.com/maps/embed/v1/place?key={$googleMapsApiKey}&q={$mapQuery}";
+
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -35,21 +90,18 @@
         <!-- HEADER SECTION WITH LOGO AND TITLE -->
         <section class="header-section">
             <div class="container">
-                <div class="header-top">
+                <div class="header-top" style="justify-content: flex-start;">
                     <div class="logo-institution">
                        
-                        <img src="../templates/assets/img/cesta rural.png" alt="Logo da Empresa" class="logo-img">
+                        <img src="<?php echo $foto_src; ?>" alt="<?php echo htmlspecialchars($empreendimentoInfo['nome']); ?>" class="logo-img">
                     </div>
 
                     <div class="header-info">
-                        <h1 class="institution-title">Cesta Rural</h1>
+                        <h1 class="institution-title"><?php echo htmlspecialchars($empreendimentoInfo['nome']); ?></h1>
         
                     </div>
                     <!-- Ícone do Carrinho Movido para Aqui -->
-                    <a href="carrinho.html" class="cart-icon-link-profile">
-                        <img src="../templates/assets/img/vista-lateral-vazia-do-carrinho-de-compras.png" alt="Carrinho de Compras" class="cart-icon-profile">
-                        <span class="cart-count-profile" id="cart-count-profile">0</span>
-                    </a>
+
                 </div>
                 
             </div>
@@ -57,7 +109,7 @@
 
         <div class="container">
             <div class="comment-feed">
-                <a href="pag_comentario.html"> Comentários</a>
+                <a href="../View/pag_comentario.php">Comentários</a>
             </div>
         </div>
 
@@ -73,7 +125,7 @@
                     </div>
                     <div class="form-field">
                        
-                        <textarea id="company-description" disabled>Somos especializados na venda de legumes, verduras, raízes e com destaque em frutas. Direto da colheita para você!</textarea>
+                        <textarea id="company-description" disabled><?php echo htmlspecialchars($empreendimentoInfo['descricao']); ?></textarea>
                     </div>
                 </div>
             </div>
@@ -94,24 +146,24 @@
 
                         <div class="form-field">
                             <label for="company-name">Nome </label>
-                            <input type="text" id="company-name" value="Cesta Rural" disabled>
+                            <input type="text" id="company-name" value="<?php echo htmlspecialchars($empreendimentoInfo['nome']); ?>" disabled>
                         </div>
 
                        
 
                         <div class="form-field">
                             <label for="phone">Telefone</label>
-                            <input type="tel" id="phone" value="(71)9 9999-9999" disabled>
+                            <input type="tel" id="phone" value="<?php echo htmlspecialchars($empreendimentoInfo['telefone']); ?>" disabled>
                         </div>
 
                         <div class="form-field">
                             <label for="hours">Horário de Funcionamento</label>
-                            <input type="text" id="hours" value="Seg - Sex: 07:00 - 17:00 • Sáb: 07:00 - 12:00 • Dom: Fechado" disabled>
+                            <input type="text" id="hours" value="<?php echo htmlspecialchars($empreendimentoInfo['hr_funcionamento']); ?>" disabled>
                         </div>
 
                         <div class="form-field">
                             <label for="whatsapp">Link para WhatsApp</label>
-                            <input type="text" id="whatsapp" value="" disabled>
+                            <input type="text" id="whatsapp" value="<?php echo htmlspecialchars($empreendimentoInfo['link_whatsapp']); ?>" disabled>
                         </div>
                     </form>
                 </div>
@@ -134,37 +186,37 @@
                     <form class="address-form" id="addressForm">
                         <div class="form-field">
                             <label for="cep">CEP</label>
-                            <input type="text" id="cep" value="42835-000" disabled>
+                            <input type="text" id="cep" value="<?php echo htmlspecialchars($enderecoInfo['cep']); ?>" disabled>
                         </div>
 
                         <div class="form-field">
                             <label for="street">Rua</label>
-                            <input type="text" id="street" value="R. Elvo Urbano Central" disabled>
+                            <input type="text" id="street" value="<?php echo htmlspecialchars($enderecoInfo['rua']); ?>" disabled>
                         </div>
 
                         <div class="form-field">
                             <label for="number">Número</label>
-                            <input type="text" id="number" value="789" disabled>
+                            <input type="text" id="number" value="<?php echo htmlspecialchars($enderecoInfo['numero']); ?>" disabled>
                         </div>
 
                         <div class="form-field">
                             <label for="neighborhood">Bairro</label>
-                            <input type="text" id="neighborhood" value="Centro" disabled>
+                            <input type="text" id="neighborhood" value="<?php echo htmlspecialchars($enderecoInfo['bairro']); ?>" disabled>
                         </div>
 
                         <div class="form-field">
                             <label for="city">Cidade</label>
-                            <input type="text" id="city" value="Camaçari" disabled>
+                            <input type="text" id="city" value="<?php echo htmlspecialchars($enderecoInfo['cidade']); ?>" disabled>
                         </div>
 
                         <div class="form-field">
                             <label for="state">Estado</label>
-                            <input type="text" id="state" value="BA" disabled>
+                            <input type="text" id="state" value="<?php echo htmlspecialchars($enderecoInfo['estado']); ?>" disabled>
                         </div>
 
                         <div class="form-field">
                             <label for="reference">Ponto de Referência</label>
-                            <input type="text" id="reference" value="Praça Abrantes" disabled>
+                            <input type="text" id="reference" value="<?php echo htmlspecialchars($enderecoInfo['complemento']); ?>" disabled>
                         </div>
                     </form>
                 </div>
@@ -183,8 +235,7 @@
                         loading="lazy"
                         allowfullscreen
                         referrerpolicy="no-referrer-when-downgrade"
-                        src="https://www.google.com/maps/embed/v1/place?key=AIzaSyC0tzkSQhRrMOcoMZ1XU0Ty4RwCER5gxLo
-                            &q=R.+Costa+Pinto,30-Centro,Camaçari-BA,42800-040">
+                        src="<?= htmlspecialchars($mapUrl) ?>">
                     </iframe>
                 </div>
             </div>
@@ -193,7 +244,7 @@
      <!-- Seção de Pesquisa -->
         <section class="search-section">
             
-            <h2 class="search-title">Descubra lojas perto de você.</h2>
+            <h2 class="search-title">Produtos</h2>
             <div class="search-container">
                 <div class="search-input-wrapper">
                     <input type="text" class="search-input" placeholder="Pesquisar...">
@@ -203,9 +254,6 @@
                 </div>
             </div>
         </section>
-    <div class="informacao-secao">
-         <p>Clique no card para saber preço e categoria</p> 
-    </div>
       
      <!-- Seção de Produtos em Destaque -->
     <section class="featured-products">
@@ -216,7 +264,7 @@
                 <!-- Card de Produto 1 -->
                 <div class="product-card" data-product-id="1" data-product-name="Banana" data-product-category="Fruta" data-product-price="17.50" data-product-image="img/Post instagram dia do feirante moderno verde (21) 1.png">
                     <div class="product-image-placeholder">
-                                             <img src="../templates/assets/img/Post instagram dia do feirante moderno verde (21) 1.png" alt="">
+                                             <img src="img/Post instagram dia do feirante moderno verde (21) 1.png" alt="">
                     </div>
                     <div class="product-info-overlay">
 
@@ -258,6 +306,46 @@
                 <!-- Card de Produto 4 -->
                 <div class="product-card" data-product-id="4" data-product-name="Batata" data-product-category="Raiz" data-product-price="4.20" data-product-image="img/batata.png">
                     <div class="product-image-placeholder">
+                                             <img src="../templates/assets/img/batata.png" alt="">
+                    </div>
+                    <div class="product-info-overlay">
+
+                        <h3 class="product-name">Batata</h3>
+                     <h3 class="product-description">Raiz</br>4,20 R$</h3>
+                        
+                    </div>
+                    <button class="add-to-cart-btn" data-product-id="4">+</button>
+                </div>
+                 <!-- Card de Produto 4 -->
+                <div class="product-card" data-product-id="4" data-product-name="Batata" data-product-category="Raiz" data-product-price="4.20" data-product-image="img/batata.png">
+                    <div class="product-image-placeholder">
+                                             <img src="img/batata.png" alt="">
+                    </div>
+                    <div class="product-info-overlay">
+
+                        <h3 class="product-name">Batata</h3>
+                     <h3 class="product-description">Raiz</br>4,20 R$</h3>
+                        
+                    </div>
+                    <button class="add-to-cart-btn" data-product-id="4">+</button>
+                </div>
+
+                 <!-- Card de Produto 4 -->
+                <div class="product-card" data-product-id="4" data-product-name="Batata" data-product-category="Raiz" data-product-price="4.20" data-product-image="img/batata.png">
+                    <div class="product-image-placeholder">
+                                             <img src="img/batata.png" alt="">
+                    </div>
+                    <div class="product-info-overlay">
+
+                        <h3 class="product-name">Batata</h3>
+                     <h3 class="product-description">Raiz</br>4,20 R$</h3>
+                        
+                    </div>
+                    <button class="add-to-cart-btn" data-product-id="4">+</button>
+                </div>
+                 <!-- Card de Produto 4 -->
+                <div class="product-card" data-product-id="4" data-product-name="Batata" data-product-category="Raiz" data-product-price="4.20" data-product-image="img/batata.png">
+                    <div class="product-image-placeholder">
                                              <img src="img/batata.png" alt="">
                     </div>
                     <div class="product-info-overlay">
@@ -287,8 +375,8 @@
         </div>
     </section>
     
- 
-  <!-- Api Vlibras -->
+
+ <!-- Api Vlibras -->
     <div vw class="enabled">
     <div vw-access-button class="active"></div>
     <div vw-plugin-wrapper>

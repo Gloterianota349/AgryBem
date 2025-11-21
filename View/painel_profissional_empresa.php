@@ -79,7 +79,7 @@ $empreendimentoNome = $empreendimentoController->getEmpreendimentoName($_SESSION
                         </a>
                          <a href="../View/empresa_loja.php" class="menu-item">
                             <img src="../templates/assets/img/loja empresa.png" alt="Sair" class="menu-item-icon">
-                            <span>minha loja</span>
+                            <span>Minha loja</span>
                         </a>
 
                          <a href="../View/empresa_pedido.php" class="menu-item">
@@ -180,7 +180,7 @@ $empreendimentoNome = $empreendimentoController->getEmpreendimentoName($_SESSION
                 <p class="donation-text">
                    No Agrybem, agricultores e comerciantes podem doar alimentos em bom estado, e instituições cadastradas como ONGs e igrejas podem receber as doações.
                 </p>
-                <a href="../View/doacao_visualização_empresa.php" class="donation-button">participar</a>
+                <a href="../View/doacao_visualização_empresa.php" class="donation-button">Participar</a>
             </div>
             <div class="donation-image">
                 <img src="../templates/assets/img/agricultordoação" alt="Agricultor com vegetais" class="donation-img">

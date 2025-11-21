@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Campos do Modal
     const modalId = document.getElementById('modal-product-id');
+    const modalDeleteId = document.getElementById('modal-delete-id');
     const modalNome = document.getElementById('modal-nome');
     const modalPreco = document.getElementById('modal-preco');
     const modalCategoria = document.getElementById('modal-categoria');
@@ -16,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function openModal(id, nome, preco, categoria) {
         // Preenche os campos do modal com os dados do card
         modalId.value = id;
+        modalDeleteId.value = id;
         modalNome.value = nome;
         modalPreco.value = preco;
         modalCategoria.value = categoria;
@@ -66,35 +68,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 openModal(id, nome, preco, categoria);
             }
         });
-    });
-
-    // Evento de clique no botão OK (simula salvar e fecha)
-    btnOK.addEventListener('click', function(e) {
-        e.preventDefault();
-        
-        const data = {
-            id: modalId.value,
-            nome: modalNome.value,
-            preco: modalPreco.value,
-            categoria: modalCategoria.value
-        };
-
-        // Simulação de salvamento
-        console.log('Simulação: Dados a serem salvos (OK clicado):', data);
-        
-        closeModal();
-    });
-
-    // Evento de clique no botão Excluir (simula exclusão e fecha)
-    btnExcluir.addEventListener('click', function(e) {
-        e.preventDefault();
-        const id = modalId.value;
-        const nome = modalNome.value;
-        
-        // Simulação de exclusão (sem funcionalidade real)
-        console.log(`Simulação: Produto "${nome}" (ID: ${id}) excluído.`);
-        
-        closeModal();
     });
 
     // Evento de clique no overlay para fechar o modal

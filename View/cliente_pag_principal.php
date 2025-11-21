@@ -4,6 +4,7 @@ session_start();
 require_once '../vendor/autoload.php';
 
 use Controller\ClienteController;
+use Controller\EmpreendimentoController;
 
 $clienteController = new ClienteController();
 
@@ -18,6 +19,9 @@ $id = $_SESSION['id'];
 $nome = $_SESSION['nome'];
 
 $clienteNome = $clienteController->getClienteName($id, $nome);
+
+$empreendimentoController = new EmpreendimentoController();
+$empreendimentos = $empreendimentoController->getAllEmpreendimentos();
 
 ?>
 
@@ -142,138 +146,31 @@ $clienteNome = $clienteController->getClienteName($id, $nome);
         <!-- Grade de Cartões -->
         <section class="cards-section">
             <div class="cards-grid">
-                <!-- Cartão 1 -->
-            <a href="../View/loja.php" class="card-link">
-        <div class="card">
-            <div class="card-image">
-                <img src="../templates/assets/img/cesta rural.png" alt="Crédito Rural">
-            </div>
-            <div class="card-content">
-                <h3 class="card-title">Cesta Rural</h3>
-                <p class="card-category">Camaçari (Centro)</p>
-            </div>
-        </div>
-    </a>
-                <!-- Cartão 2 -->
-                <div class="card">
-                    <div class="card-image">
-                        <img src="../templates/assets/img/login cliente.png" alt="Sementes">
-                    </div>
-                    <div class="card-content">
-                        <h3 class="card-title">Sementes de Milho</h3>
-                        <p class="card-category">Categoria: Insumos</p>
-                    </div>
-                </div>
-    
-                <!-- Cartão 3 -->
-                <div class="card">
-                    <div class="card-image">
-                        <img src="../templates/assets/img/loja 2.png" alt="Maquinário">
-                    </div>
-                    <div class="card-content">
-                        <h3 class="card-title">Maquinário Agrícola</h3>
-                        <p class="card-category">Categoria: Equipamentos</p>
-                    </div>
-                </div>
-    
-                <!-- Cartão 4 -->
-                <div class="card">
-                    <div class="card-image">
-                        <img src="../templates/assets/img/loja 4.png" alt="Fertilizantes">
-                    </div>
-                    <div class="card-content">
-                        <h3 class="card-title">Fertilizantes Orgânicos</h3>
-                        <p class="card-category">Categoria: Insumos</p>
-                    </div>
-                </div>
-    
-                <!-- Cartão 5 -->
-                <div class="card">
-                    <div class="card-image">
-                        <img src="https://via.placeholder.com/200x150?text=Consultoria" alt="Consultoria">
-                    </div>
-                    <div class="card-content">
-                        <h3 class="card-title">Consultoria Agrícola</h3>
-                        <p class="card-category">Categoria: Serviços</p>
-                    </div>
-                </div>
-    
-                <!-- Cartão 6 -->
-                <div class="card">
-                    <div class="card-image">
-                        <img src="https://via.placeholder.com/200x150?text=Pesticidas" alt="Pesticidas">
-                    </div>
-                    <div class="card-content">
-                        <h3 class="card-title">Pesticidas Naturais</h3>
-                        <p class="card-category">Categoria: Insumos</p>
-                    </div>
-                </div>
-    
-                <!-- Cartão 7 -->
-                <div class="card">
-                    <div class="card-image">
-                        <img src="https://via.placeholder.com/200x150?text=Irrigação" alt="Irrigação">
-                    </div>
-                    <div class="card-content">
-                        <h3 class="card-title">Sistemas de Irrigação</h3>
-                        <p class="card-category">Categoria: Equipamentos</p>
-                    </div>
-                </div>
-    
-                <!-- Cartão 8 -->
-                <div class="card">
-                    <div class="card-image">
-                        <img src="https://via.placeholder.com/200x150?text=Armazenamento" alt="Armazenamento">
-                    </div>
-                    <div class="card-content">
-                        <h3 class="card-title">Armazenamento de Grãos</h3>
-                        <p class="card-category">Categoria: Infraestrutura</p>
-                    </div>
-                </div>
-    
-                <!-- Cartão 9 -->
-                <div class="card">
-                    <div class="card-image">
-                        <img src="https://via.placeholder.com/200x150?text=Transporte" alt="Transporte">
-                    </div>
-                    <div class="card-content">
-                        <h3 class="card-title">Transporte Agrícola</h3>
-                        <p class="card-category">Categoria: Logística</p>
-                    </div>
-                </div>
-    
-                <!-- Cartão 10 -->
-                <div class="card">
-                    <div class="card-image">
-                        <img src="https://via.placeholder.com/200x150?text=Seguros" alt="Seguros">
-                    </div>
-                    <div class="card-content">
-                        <h3 class="card-title">Seguros Agrícolas</h3>
-                        <p class="card-category">Categoria: Seguros</p>
-                    </div>
-                </div>
-    
-                <!-- Cartão 11 -->
-                <div class="card">
-                    <div class="card-image">
-                        <img src="https://via.placeholder.com/200x150?text=Tecnologia" alt="Tecnologia">
-                    </div>
-                    <div class="card-content">
-                        <h3 class="card-title">Tecnologia Agrícola</h3>
-                        <p class="card-category">Categoria: Tecnologia</p>
-                    </div>
-                </div>
-    
-                <!-- Cartão 12 -->
-                <div class="card">
-                    <div class="card-image">
-                        <img src="https://via.placeholder.com/200x150?text=Mercado" alt="Mercado">
-                    </div>
-                    <div class="card-content">
-                        <h3 class="card-title">Mercado de Produtos</h3>
-                        <p class="card-category">Categoria: Comercialização</p>
-                    </div>
-                </div>
+                <?php if (!empty($empreendimentos)): ?>
+                    <?php foreach ($empreendimentos as $empreendimento): ?>
+                        <?php
+                            // Converte o binário da foto para base64 para exibição
+                            $foto_base64 = base64_encode($empreendimento['foto']);
+                            $foto_src = 'data:image/jpeg;base64,' . $foto_base64;
+                            // Cria o link para a página da loja, passando o ID do empreendimento
+                            $link_loja = "../View/loja.php?id=" . $empreendimento['id'];
+                            $cidade_bairro = htmlspecialchars($empreendimento['cidade']) . ' (' . htmlspecialchars($empreendimento['bairro']) . ')';
+                        ?>
+                        <a href="<?php echo $link_loja; ?>" class="card-link">
+                            <div class="card">
+                                <div class="card-image">
+                                    <img src="<?php echo $foto_src; ?>" alt="<?php echo htmlspecialchars($empreendimento['nome']); ?>">
+                                </div>
+                                <div class="card-content">
+                                    <h3 class="card-title"><?php echo htmlspecialchars($empreendimento['nome']); ?></h3>
+                                    <p class="card-category"><?php echo $cidade_bairro; ?></p>
+                                </div>
+                            </div>
+                        </a>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p>Nenhuma empresa cadastrada no momento.</p>
+                <?php endif; ?>
             </div>
         </section>
         <!-- Api Vlibras -->

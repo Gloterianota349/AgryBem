@@ -56,7 +56,7 @@ class EmpreendimentoController{
             return false;
         }
 
-        return $this->empreendimentoModel->registerEmpreendimento($nome, $telefone, $link_whatsapp, $descricao, $hr_funcionamento, $foto);
+        return $this->empreendimentoModel->registerEmpreendimento($nome, $telefone, $link_whatsapp, $descricao, $hr_funcionamento, $foto, $_SESSION['id_endereco']);
     }
 
     // Buscar nome do empreendimento
@@ -85,8 +85,13 @@ class EmpreendimentoController{
     }
 
     // Buscar informações do empreendimento (pelo empreendimento)
-    public function getempreendimentoInfo($id, $nome, $telefone, $link_whatsapp, $descricao, $hr_funcionamento){
-        return $this->empreendimentoModel->getempreendimentoInfo($id, $nome, $telefone, $link_whatsapp, $descricao, $hr_funcionamento);
+    public function getAllEmpreendimentos(){
+        return $this->empreendimentoModel->getAllEmpreendimentos();
+    }
+
+    // Buscar informações do empreendimento (pelo empreendimento)
+    public function getempreendimentoInfo($id){
+        return $this->empreendimentoModel->getempreendimentoInfo($id);
     }
 
     //Atualizar informações de cadastro do empreendimento

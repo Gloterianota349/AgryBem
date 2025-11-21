@@ -8,7 +8,7 @@ use Controller\InstituicaoController;
 $instituicaoController = new InstituicaoController();
 
 
-$id = $_SESSION['id'] ?? null;
+$id = $_SESSION['id_instituicao'] ?? null;
 if (!$id) {
     header("HTTP/1.0 404 Not Found");
     exit('ID não encontrado');

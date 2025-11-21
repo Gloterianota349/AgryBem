@@ -25,14 +25,6 @@ class EmpreendedorController{
         return true;
     }
 
-    //Cadastro de empreendedor
-    public function cadastroEmpreendedor($nome, $email, $senha, $cnpj_cpf, $id_empreendimento){
-        if(empty($nome) || empty($email) || empty($senha) || empty($cnpj_cpf) || empty($id_empreendimento)){
-            return false;
-        }
-        return $this->empreendedorModel->registerEmpreendedor($nome, $email, $senha, $cnpj_cpf, $id_empreendimento);
-    }
-
     //Verificar se empreendedor está loggado
     public function isLoggedIn(){
         return isset ($_SESSION['id_empreendimento']);
