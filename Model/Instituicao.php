@@ -200,6 +200,20 @@ class Instituicao {
             return false;
         }
     }
+
+    public function updatePasswordByEmail($email, $senha){
+        try{
+            $sql = "UPDATE instituicao SET senha = :senha WHERE email = :email";
+            $stmt = $this->db->prepare($sql);
+            $hashed = password_hash($senha, PASSWORD_DEFAULT);
+            $stmt->bindParam(":senha", $hashed, PDO::PARAM_STR);
+            $stmt->bindParam(":email", $email, PDO::PARAM_STR);
+            return $stmt->execute();
+        } catch(PDOException $error){
+            echo "Erro ao atualizar senha: " . $error->getMessage();
+            return false;
+        }
+    }
 }
 
 ?>

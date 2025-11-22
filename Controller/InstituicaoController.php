@@ -108,6 +108,14 @@ class InstituicaoController{
         return $this->instituicaoModel->getAllInstituicoes();
     }
 
+    // Redefinir senha por email
+    public function resetPasswordByEmail($email, $senha){
+        $email = filter_var(trim($email ?? ''), FILTER_VALIDATE_EMAIL);
+        $senha = trim($senha ?? '');
+        if(!$email || empty($senha) || strlen($senha) < 6) return false;
+        return $this->instituicaoModel->updatePasswordByEmail($email, $senha);
+    }
+
     //Atualizar informações de cadastro da instituição
     public function updateInstituicao($id, $nome, $email, $cnpj, $link_whatsapp){
         if(empty($id) || empty($nome) || empty($email) || empty($cnpj) || empty($link_whatsapp)){

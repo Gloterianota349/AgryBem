@@ -53,6 +53,14 @@ class EmpreendedorController{
         return $this->empreendedorModel->getEmpreendedorByCNPJ_CPF($cnpj_cpf);
     }
 
+    // Redefinir senha por email
+    public function resetPasswordByEmail($email, $senha){
+        $email = filter_var(trim($email ?? ''), FILTER_VALIDATE_EMAIL);
+        $senha = trim($senha ?? '');
+        if(!$email || empty($senha) || strlen($senha) < 6) return false;
+        return $this->empreendedorModel->updatePasswordByEmail($email, $senha);
+    }
+
     //Buscarr pelo nome do empreendedor
     public function getEmpreendedorName($id, $nome){
         return $this->empreendedorModel->getEmpreendedorName($id, $nome);

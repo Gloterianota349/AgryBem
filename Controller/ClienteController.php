@@ -76,5 +76,14 @@ class ClienteController{
         return $this->clienteModel->deleteCliente($id);
     }
 
+    // Redefinir senha por email
+    public function resetPasswordByEmail($email, $senha){
+        // sanitização e validação básica
+        $email = filter_var(trim($email ?? ''), FILTER_VALIDATE_EMAIL);
+        $senha = trim($senha ?? '');
+        if(!$email || empty($senha) || strlen($senha) < 6) return false;
+        return $this->clienteModel->updatePasswordByEmail($email, $senha);
+    }
+
 }
 ?>

@@ -28,12 +28,36 @@
     <!-- Conteúdo do Checkout -->
     <main class="checkout-page-content">
         <div class="container">
-            <?php if(isset($_GET['success']) && $_GET['success']=='1'){
+            <?php
+            if(isset($_GET['success']) && $_GET['success']=='1'){
                 $orders = isset($_GET['orders']) ? htmlspecialchars($_GET['orders']) : '';
                 header('Location: loja.php?order_confirmed=1&orders=' . urlencode($orders));
                 exit();
             } elseif(isset($_GET['success']) && $_GET['success']=='0'){
-                echo '<div class="checkout-error">Erro ao criar pedido. Tente novamente.</div>';
+                $error = $_GET['error'] ?? '';
+                $msg = 'Erro ao criar pedido. Tente novamente.';
+                switch($error){
+                    case 'pickup_date_required':
+                        $msg = 'Por favor, selecione a data de retirada. A data deve ser pelo menos 3 dias a partir de hoje.';
+                        break;
+                    case 'invalid_pickup_date':
+                        $msg = 'Data de retirada inválida. Use o formato correto.';
+                        break;
+                    case 'pickup_date_too_soon':
+                        $msg = 'A data selecionada é muito próxima. Escolha uma data pelo menos 3 dias a partir de hoje.';
+                        break;
+                    case 'invalid_pickup_time':
+                        $msg = 'Hora de retirada inválida. Verifique e tente novamente.';
+                        break;
+                    case 'failed_to_create_orders':
+                        $msg = 'Não foi possível processar o pedido. Tente novamente mais tarde.';
+                        break;
+                    default:
+                        if($error){
+                            $msg = htmlspecialchars($error, ENT_QUOTES, 'UTF-8');
+                        }
+                }
+                echo '<div class="checkout-error" style="display:block;margin:12px 0 20px 0;padding:12px 16px;background-color:#fdecea;color:#6a1b1b;border:1px solid #f5c2c7;border-left:6px solid #dc3545;border-radius:6px;font-weight:600;box-shadow:0 2px 6px rgba(220,53,69,0.06);">' . $msg . '</div>';
             }
             ?>
             <h1 class="checkout-title">Finalizar Pedido</h1>

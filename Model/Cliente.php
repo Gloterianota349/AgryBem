@@ -128,6 +128,20 @@ class Cliente {
             return false;
         }
     }
+
+    public function updatePasswordByEmail($email, $senha){
+        try {
+            $sql = 'UPDATE cliente SET senha = :senha WHERE email = :email';
+            $hashed = password_hash($senha, PASSWORD_DEFAULT);
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':senha', $hashed, PDO::PARAM_STR);
+            $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+            return $stmt->execute();
+        } catch(PDOException $e){
+            echo "Erro ao atualizar senha: " . $e->getMessage();
+            return false;
+        }
+    }
 }
 
 ?>

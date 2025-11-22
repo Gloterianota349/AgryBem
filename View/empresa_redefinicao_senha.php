@@ -35,24 +35,58 @@
             <div class="form-container">
                 <h1 class="form-title">Insira sua nova senha!</h1>
                 
-                <form class="form">
+                <?php
+                session_start();
+                require_once __DIR__ . '/../vendor/autoload.php';
+                use Controller\EmpreendedorController;
+
+                $error = '';
+                if(!isset($_SESSION['reset_email'])){
+                    header('Location: empresa_senha.php');
+                    exit();
+                }
+
+                if($_SERVER['REQUEST_METHOD'] === 'POST'){
+                    $senha = trim($_POST['senha'] ?? '');
+                    $senha2 = trim($_POST['senha2'] ?? '');
+                    if(empty($senha) || empty($senha2)){
+                        $error = 'Preencha ambos os campos de senha.';
+                    } elseif($senha !== $senha2){
+                        $error = 'As senhas não coincidem.';
+                    } elseif(strlen($senha) < 6){
+                        $error = 'A senha deve ter ao menos 6 caracteres.';
+                    } else {
+                        $ctrl = new EmpreendedorController();
+                        $email = $_SESSION['reset_email'];
+                        $ok = $ctrl->resetPasswordByEmail($email, $senha);
+                        if($ok){
+                            unset($_SESSION['reset_email']);
+                            header('Location: login_empresa.php?reset=1');
+                            exit();
+                        } else {
+                            $error = 'Falha ao atualizar a senha. Tente novamente.';
+                        }
+                    }
+                }
+                ?>
+
+                <form class="form" method="post" action="">
+                    <?php if($error): ?>
+                        <div class="form-error"><?php echo htmlspecialchars($error); ?></div>
+                    <?php endif; ?>
                     <div class="form-group">
-                        <label for="nome" class="form-label">Senha</label>
-                        <input type="password" id="nome" name="nome" class="form-input" placeholder="">
+                        <label for="senha" class="form-label">Senha</label>
+                        <input type="password" id="senha" name="senha" class="form-input" placeholder="" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="email" class="form-label">Confirme sua senha</label>
-                        <input type="password" id="email" name="email" class="form-input" placeholder="">
+                        <label for="senha2" class="form-label">Confirme sua senha</label>
+                        <input type="password" id="senha2" name="senha2" class="form-input" placeholder="" required>
                     </div>
-
-            
-
-                   
 
 <!-- BOTÃO OK -->
 <div class="form-group form-button-ok">
-  <a href="../View/login_empresa.php" class="ok-button">Continuar</a>
+  <button type="submit" class="ok-button">Continuar</button>
 </div>
         </main>
 

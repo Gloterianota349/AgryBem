@@ -35,24 +35,48 @@
             <div class="form-container">
                 <h1 class="form-title">Insira seus dados para recuperação de senha!</h1>
                 
-                <form class="form">
+                <?php
+                session_start();
+                require_once __DIR__ . '/../vendor/autoload.php';
+                use Controller\EmpreendedorController;
+
+                $error = '';
+                if($_SERVER['REQUEST_METHOD'] === 'POST'){
+                    $cnpjcpf = trim($_POST['nome'] ?? '');
+                    $email = trim($_POST['email'] ?? '');
+                    if(empty($cnpjcpf) || empty($email)){
+                        $error = 'Preencha CPF/CNPJ e e-mail.';
+                    } else {
+                        $ctrl = new EmpreendedorController();
+                        $emp = $ctrl->getEmpreendedorByCNPJ_CPF($cnpjcpf);
+                        if($emp && isset($emp['email']) && strtolower($emp['email']) === strtolower($email)){
+                            $_SESSION['reset_email'] = $email;
+                            header('Location: empresa_redefinicao_senha.php');
+                            exit();
+                        } else {
+                            $error = 'CPF/CNPJ e e-mail não conferem ou não estão cadastrados.';
+                        }
+                    }
+                }
+                ?>
+
+                <form class="form" method="post" action="">
+                    <?php if($error): ?>
+                        <div class="form-error"><?php echo htmlspecialchars($error); ?></div>
+                    <?php endif; ?>
                     <div class="form-group">
                         <label for="nome" class="form-label">CPF ou CNPJ </label>
-                        <input type="text" id="nome" name="nome" class="form-input" placeholder="">
+                        <input type="text" id="nome" name="nome" class="form-input" placeholder="" required>
                     </div>
 
                     <div class="form-group">
                         <label for="email" class="form-label">E-mail comercial</label>
-                        <input type="email" id="email" name="email" class="form-input" placeholder="">
+                        <input type="email" id="email" name="email" class="form-input" placeholder="" required>
                     </div>
-
-            
-
-                   
 
 <!-- BOTÃO OK -->
 <div class="form-group form-button-ok">
-  <a href="../View/empresa_redefinicao_senha.php" class="ok-button">Continuar</a>
+  <button type="submit" class="ok-button">Continuar</button>
 </div>
         </main>
  <!-- Api Vlibras -->

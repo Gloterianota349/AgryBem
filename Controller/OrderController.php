@@ -58,6 +58,30 @@ switch($action){
         $cart = $_SESSION['cart'] ?? [];
         if(empty($cart)) jsonErr('cart empty');
 
+        // Enforce pickup_date present and at least 3 days from today
+        $isAjax = (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') || (isset($_SERVER['HTTP_ACCEPT']) && strpos($_SERVER['HTTP_ACCEPT'],'application/json') !== false);
+
+        if(empty($pickup_date)){
+            if($isAjax) jsonErr('pickup_date_required');
+            header('Location: ../View/checkout.php?success=0&error=pickup_date_required');
+            exit;
+        }
+
+        $d = \DateTime::createFromFormat('Y-m-d', $pickup_date);
+        if(!$d || $d->format('Y-m-d') !== $pickup_date){
+            if($isAjax) jsonErr('invalid_pickup_date');
+            header('Location: ../View/checkout.php?success=0&error=invalid_pickup_date');
+            exit;
+        }
+
+        $today = new \DateTime('today');
+        $minDate = (clone $today)->modify('+3 days');
+        if($d < $minDate){
+            if($isAjax) jsonErr('pickup_date_too_soon');
+            header('Location: ../View/checkout.php?success=0&error=pickup_date_too_soon');
+            exit;
+        }
+
         // Group items by empresa (id_empreendimento)
         $groups = [];
         foreach($cart as $pid => $item){
