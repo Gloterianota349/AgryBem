@@ -153,7 +153,7 @@ Atualize seu catálogo e acompanhe seu perfil diretamente pelo celular</p>
                 <div class="advantage-item">
                     <img src="../templates/assets/img/patiner 2 orientação.png" alt="Ícone Consultoria" class="advantage-icon">
                     <h3 class="advantage-title">Orientação gratuita</h3>
-                    <p class="advantage-text">A equipe do Agrybem oferece apoio para ajudar você a divulgar melhor o seu negócio e aproveitar todos os recursos da plataforma.
+                    <p class="advantage-text">A equipe do Agrybem oferece apoio através do nosso suporte, para ajudar você a divulgar melhor o seu negócio e aproveitar todos os recursos da plataforma.
                          
                     </p>
                 </div>

@@ -143,7 +143,7 @@
                          <div class="accordion-item">
                              <input type="checkbox" id="faq2_new" class="accordion-toggle" hidden>
                              <label for="faq2_new" class="accordion-header">
-                                 Como encontro os melhres produtores próximos de mim?
+                                 Como encontro os melhores produtores próximos de mim?
                                  <img src="../templates/assets/img/seta-para-baixo (1).png" alt="Abrir" class="accordion-icon">
                              </label>
                              <div class="accordion-content">
@@ -155,11 +155,11 @@
                          <div class="accordion-item">
                              <input type="checkbox" id="faq3_new" class="accordion-toggle" hidden>
                              <label for="faq3_new" class="accordion-header">
-                             Posso editar ou excluir meu pedido após enviar?
+                             Posso  excluir meu pedido após enviar?
                                  <img src="../templates/assets/img/seta-para-baixo (1).png" alt="Abrir" class="accordion-icon">
                              </label>
                              <div class="accordion-content">
-                                 <p>Sim! Basta acessar a seção “Meus pedidos” e selecionar a opção desejada.</p>
+                                 <p>Sim! Basta acessar a seção “Meus pedidos” e selecionar o botão "cancelar" no canto superior do pedido desejado.</p>
                              </div>
                          </div>
  

@@ -95,11 +95,11 @@
                     <div class="info-text">
                         <p>Siga os passos abaixo para cadastrar sua empresa no Agrybem:</p>
                         <ul>
-                            <li>Acesse a página “Cadastro de Empresa” e clique em “Cadastrar sua conta”.</li>
-                            <li>Preencha os dados principais: nome do responsável, e-mail comercial, CPF ou CNPJ, senha e confirmação.</li>
-                            <li>Clique em “>” para seguir.</li>
+                            <li>Acesse o link “Cadastre-se” no formulario de login.</li>
+                            <li>Preencha os seus dados principais.</li>
+                            <li>Clique em “ok” para seguir.</li>
                             <li> Dados gerais da empresa (nome da empresa, telefone comercial, horário de funcionamento e link para contato)                                 </li>
-                            <li>Informe o endereço do seu negócio: CEP, rua, número, bairro, cidade e estado.</li>
+                            <li>Informe o endereço do seu negócio: CEP, rua, número, bairro, cidade e estado e complemento.</li>
                             <li>Adicione uma breve descrição do seu negócio, destacando o que você oferece.</li>
                             <li>Envie uma foto de perfil (logo ou imagem representativa da empresa).</li>
                         </ul>
@@ -111,15 +111,15 @@
                 <div class="info-block">
                     <h3 class="info-title">Cadastrando produtos no Agrybem</h3>
                     <div class="info-text">
-                        <p>No seu painel profissional, clique em “Meus Produtos” e depois em “Cadastrar Produto”. Preencha as informações solicitadas:</p>
+                        <p>No menu, clique em “Meus Produtos” e depois em “Cadastrar Produto”. Preencha as informações solicitadas:</p>
                         <ul>
                             <li>Nome do produto</li>
-                            <li>Categoria</li>
-                            <li>Descrição</li>
-                            <li>Preço e disponibilidade</li>
+                            <li>unidade de medida (kg ou Un)</li>
+                            <li>preço base</li>
+                            <li>categoria</li>
                         </ul>
                         <p>Adicione uma foto de qualidade — isso aumenta a confiança dos compradores!</p>
-                        <p>Após o envio, seu produto será exibido na plataforma e poderá ser encontrado pelos consumidores nas categorias e buscas.</p>
+                        <p>Após o envio, seu produto será exibido  em "Meus produtos" onde vc terá como editar ou excluir, obtendo um melhor controle do seu estoque na plataforma, e também seus produtos seram encontrados pelos consumidores nas categorias e buscas.</p>
                     </div>
                 </div>
 
@@ -192,7 +192,7 @@
                                  <img src="../templates/assets/img/seta-para-baixo (1).png" alt="Abrir" class="accordion-icon">
                              </label>
                              <div class="accordion-content">
-                                 <p>Sim. O Agrybem conta com uma página especial voltada para doações de alimentos, onde usuários e empresas podem contribuir com produtos agrícolas destinados a comunidades, instituições e famílias em situação de vulnerabilidade. Essa iniciativa reforça o compromisso do Agrybem com a solidariedade, o combate ao desperdício e o apoio social no campo e na cidade.</p>
+                                 <p>Sim! O Agrybem conta com uma página especial dedicada à solidariedade e mobilização social, onde os usuários podem encontrar o endereço de instituições próximas e realizar doações de alimentos — sejam orgânicos adquiridos nas lojas Agrybem ou produtos próprios. Essa ação busca fortalecer o combate à fome e incentivar a união.</p>
                              </div>
                          </div>
                      </div>
