@@ -13,7 +13,7 @@ class ClienteController{
 
     //Cadastro de cliente
     public function cadastroCliente($nome, $email, $telefone, $senha){
-        if(empty($nome) or empty($email) or empty($senha)){
+        if(empty($nome) or empty($email) or empty($senha) or empty($telefone)){
             return false;
         }
 
